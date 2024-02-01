@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CinesRepository extends JpaRepository<CinesModels, Integer> {
 
-    static void save(PeliculasController ciudades) {
+    static void save(PeliculasController Peliculas) {
     }
 
-    List<CinesModels> findByCiudadContaining(String cines);
+    List<CinesModels> findByPeliculasContaining(String cines);
 }

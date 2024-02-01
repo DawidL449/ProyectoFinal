@@ -66,4 +66,10 @@ public class PeliculasModels {
     }
 
 
+    public void setName(String espectadoresRepository) {
+    }
+
+    public Object getName() {
+        return null;
+    }
 }

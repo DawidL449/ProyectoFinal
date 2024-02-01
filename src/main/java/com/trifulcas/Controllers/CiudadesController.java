@@ -69,7 +69,7 @@ public class CiudadesController {
         return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/ciudades/{id}")
     public ResponseEntity<CiudadesModels> updateCategory(@PathVariable("id") int id, @RequestBody CiudadesModels ciudadesModels) {
         CiudadesModels temp = ciudadesRepository.findById(id).orElse(null);
         if (temp == null) {
@@ -85,7 +85,7 @@ public class CiudadesController {
         return null;
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/ciudades/{id}")
     public ResponseEntity<HttpStatus> deleteCategory(@PathVariable("id") int id) {
         ciudadesRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);

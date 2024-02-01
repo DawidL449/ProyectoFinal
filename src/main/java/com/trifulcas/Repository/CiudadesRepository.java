@@ -12,7 +12,9 @@ public interface CiudadesRepository extends JpaRepository<CiudadesModels, Intege
     }
 
     // Busco las categorías cuyo nombre contenga una cadena
-    static List<CiudadesModels> findByNameContaining(String name);
+    static List<CiudadesModels> findByNameContaining(String name) {
+        return null;
+    }
 
     // Busco las categorías cuya propiedad 'Films' tengan un id 'FilmId'
     static List<CiudadesModels> findByFilmsFilmId(int id) {

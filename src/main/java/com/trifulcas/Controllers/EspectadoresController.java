@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.qos.logback.core.model.Model;
-import com.trifulcas.Models.CiudadesModels;
 import com.trifulcas.Models.EspectadoresModels;
-import com.trifulcas.Repository.CiudadesRepository;
 import com.trifulcas.Repository.EspectadoresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +54,7 @@ public class EspectadoresController {
 
     @GetMapping("/espectadores/{id}")
     public ResponseEntity<EspectadoresModels> getCategory(@PathVariable("id") int id) {
-        CiudadesModels ciudadesModels = (CiudadesModels) CiudadesModels.findById(id)
+        EspectadoresModels ciudadesModels = (EspectadoresModels) EspectadoresModels.findById(id)
                 // .orElseThrow(()->new ResourceNotFoundException("Category not found"));
                 .orElse(null);
         if (ciudadesModels == null) {
@@ -67,13 +65,13 @@ public class EspectadoresController {
     }
 
     @PostMapping("/ciudades")
-    public ResponseEntity<EspectadoresModels> addCategory(@RequestBody CiudadesModels ciudadesModels) {
-        EspectadoresModels temp = CiudadesModels.save(new EspectadoresModels(ciudadesModels.getName()));
+    public ResponseEntity<EspectadoresModels> addCategory(@RequestBody EspectadoresModels espectadoresModels) {
+        EspectadoresModels temp = EspectadoresModels.save(new EspectadoresModels(espectadoresModels.getName()));
         return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
     @PutMapping("/category/{id}")
-    public ResponseEntity<EspectadoresModels> updateCategory(@PathVariable("id") int id, @RequestBody CiudadesModels ciudadesModels) {
+    public ResponseEntity<EspectadoresModels> updateCategory(@PathVariable("id") int id, @RequestBody EspectadoresModels ciudadesModels) {
         EspectadoresModels temp = EspectadoresRepository.findById(id).orElse(null);
         if (temp == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,7 +1,6 @@
 package com.trifulcas.Controllers;
 
 import com.trifulcas.Models.CinesModels;
-import com.trifulcas.Models.CiudadesModels;
 import com.trifulcas.Repository.CinesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,17 +38,17 @@ public class CinesController {
     }
 
     @PostMapping("/addcat")
-    public String addCategory(@Validated CiudadesModels Ciudades, BindingResult result, Model model) {
+    public String addCategory(@Validated CinesModels cines, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add";
         }
-        CinesController.save(Ciudades);
+        CinesController.save(cines);
         return "redirect:/cat/index";
     }
 
     @GetMapping("/edit/{id}")
     public String editPeliculas(@PathVariable("id") int id, Model model) {
-        CiudadesModels peliculas = (CiudadesModels) CinesController.findById(id).get();
+        CinesModels peliculas = (CinesModels) CinesController.findById(id).get();
         model.addAttribute("ciudades", CinesRepository);
         return "update";
     }
@@ -60,7 +59,7 @@ public class CinesController {
 
 
     @PostMapping("/updatecat/{id}")
-    public String updateFilms(@PathVariable("id") int id, @Validated PeliculasController cines, BindingResult result,
+    public String updateFilms(@PathVariable("id") int id, @Validated CinesController cines, BindingResult result,
                               Model model) {
 
         if (result.hasErrors()) {
