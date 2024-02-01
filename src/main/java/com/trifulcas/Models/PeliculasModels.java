@@ -1,51 +1,69 @@
 package com.trifulcas.Models;
+import java.sql.Timestamp;
+import java.util.Date;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-
-import javax.persistence.*;
-
-import lombok.*;
-
-@Getter
-@Table
-@Data
+@Entity
+@Table(name = "peliculas")
 public class PeliculasModels {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String Nombre;
-    private String Descripcion;
-    private String Genero;
+    @Column(name = "peliculas_id")
+    private int peliculasId;
 
-    public Long getId() {
-        return id;
+    @Column(name = "peliculas", nullable = false)
+    private String peliculas;
+
+    @Column(name = "last_update", nullable = false)
+    private Timestamp lastUpdate;
+
+    public PeliculasModels() {
+        super();
+        Date now = new Date();
+        this.lastUpdate = new Timestamp(now.getTime());
+
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public PeliculasModels(String country) {
+        this();
+        this.peliculas = country;
     }
 
-    public String getNombre() {
-        return Nombre;
+    public int getCountryId() {
+        return peliculasId;
     }
 
-    public String getDescripcion() {
-        return Descripcion;
+    public void setCountryId(int countryId) {
+        this.peliculasId = countryId;
     }
 
-    public String getGenero() {
-        return Genero;
+    public String getCountry() {
+        return peliculas;
     }
 
-    public void setGenero(String genero) {
-        Genero = genero;
+    public void setCountry(String peliculas) {
+        this.peliculas = peliculas;
     }
 
-    public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setNombre(String nombre) {
-        Nombre = nombre;
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
+
+    @Override
+    public String toString() {
+        return "Peliculas [peliculasId=" + peliculasId + ", country=" + peliculas + ", lastUpdate=" + lastUpdate + "]";
+    }
+
+
 }

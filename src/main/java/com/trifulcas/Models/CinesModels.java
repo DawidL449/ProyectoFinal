@@ -1,50 +1,72 @@
 package com.trifulcas.Models;
-import lombok.Data;
-import lombok.Getter;
+import jakarta.persistence.*;
+import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-@Getter
 @Entity
-@Table
-@Data
+@Table(name = "cines")
 public class CinesModels {
-        private Long id;
-        private String Nombre;
-        private String Capital;
 
-    public static CinesModels save(CinesModels cinesModels) {
-        return cinesModels;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cines_id")
+    private int cinesId;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "last_update",  columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdate = new Date();
+
+    // Constructor, getters, and setters
+
+    public CinesModels() {
     }
 
-    public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getNombre() {
-            return Nombre;
-        }
-
-        public String getCapital() {
-            return Capital;
-        }
-
-        public void setCapital(String capital) {
-            Capital = capital;
-        }
-
-        public void setNombre(String nombre) {
-            Nombre = nombre;
-        }
-
-    public String getName() {
-            return null;
+    public CinesModels(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
+
+    public int getCinesModelsId() {
+        return cinesId;
+    }
+
+    public void setCinesModelsId(int actorId) {
+        this.cinesId = cinesId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    @Override
+    public String toString() {
+        return "Cines [CinesId=" + cinesId + ", firstName=" + firstName + ", lastName=" + lastName + ", lastUpdate="
+                + lastUpdate + "]";
+    }
+
 }
-
-

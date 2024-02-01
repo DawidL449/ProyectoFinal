@@ -1,57 +1,83 @@
 package com.trifulcas.Models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
-import lombok.*;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-@Getter
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
 @Entity
-@Table
-@Data
-public class EspectadoresModels {
-    private Long id;
-    private String Nombre;
-    private String Descripcion;
-    private String Genero;
+@Table(name = "ciudades")
+public class EspectadoresModels extends CiudadesModels {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "espectadores_id")
+    private int espectadoresId;
 
-    public static EspectadoresModels save(CinesModels cinesModels) {
-        return null;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "last_update", nullable = false)
+    private Timestamp lastUpdate;
+
+    // Como ya hemos especificado los datos de la tabla en film
+    // Aquí nos basta con especificar la entidad en Film
+    @ManyToMany(mappedBy="espectadores")
+    // Anotación para evitar que al recuperar la categoría salgan las películas
+    @JsonIgnore
+    private Set<EspectadoresModels> films=new HashSet<>();
+
+    public EspectadoresModels() {
+        super();
+        Date now = new Date();
+        this.lastUpdate = new Timestamp(now.getTime());
+
     }
 
-    public Long getId() {
-        return id;
+    public EspectadoresModels(String name) {
+        super();
+        this.name = name;
+        Date now = new Date();
+        this.lastUpdate = new Timestamp(now.getTime());
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public int getEspectadoresId() {
+        return espectadoresId;
     }
 
-    public String getNombre() {
-        return Nombre;
-    }
-
-    public String getDescripcion() {
-        return Descripcion;
-    }
-
-    public String getGenero() {
-        return Genero;
-    }
-
-    public void setGenero(String genero) {
-        Genero = genero;
-    }
-
-    public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
-    }
-
-    public void setNombre(String nombre) {
-        Nombre = nombre;
+    public void setCiudadesId(int espectadoresId) {
+        this.espectadoresId= espectadoresId;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    @Override
+    public String toString() {
+        return "Espectadores [espectadoresId=" + espectadoresId + ", name=" + name + ", lastUpdate=" + lastUpdate + "]";
+    }
+
 }
