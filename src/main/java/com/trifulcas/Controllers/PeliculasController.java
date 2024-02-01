@@ -1,88 +1,97 @@
 package com.trifulcas.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.qos.logback.core.model.Model;
+import com.trifulcas.Models.CiudadesModels;
+import com.trifulcas.Models.EspectadoresModels;
 import com.trifulcas.Models.PeliculasModels;
+import com.trifulcas.Repository.CiudadesRepository;
+import com.trifulcas.Repository.EspectadoresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(path = "/cat")
+
+
+@RestController
+@RequestMapping("/api")
 public class PeliculasController {
-
     @Autowired
-    PeliculasController peliculasRepository;
+    PeliculasRepository PeliculasRepository;
+    private com.trifulcas.Models.EspectadoresModels EspectadoresModels;
 
-    @GetMapping("/index")
-    public String getAll(Model model) {
-        model.addAttribute("categories", peliculasRepository.findAll());
+    @GetMapping("/espectadores")
+    public ResponseEntity<List<EspectadoresModels>> getAll(@RequestParam(required = false) String name) {
+        List<EspectadoresModels> res = new ArrayList<>();
+        if (name == null) {
 
-        return "index";
-    }
-
-    private Object findAll() {
-        return null;
-    }
-
-    @GetMapping("/add")
-    public String addCat(PeliculasController Peliculas) {
-        return "add";
+        } else {
+            EspectadoresRepository.findByNameContaining(name).forEach(res::add);
+        }
+        if (res.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping("/addcat")
-    public String addCategory(@Validated PeliculasModels Peliculas, BindingResult result, Model model) {
+    public String addpeliculas(@Validated PeliculasModels Peliculas, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add";
         }
-        peliculasRepository.save(Peliculas);
-        return "redirect:/cat/index";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editPeliculas(@PathVariable("id") int id, Model model) {
-        PeliculasModels peliculas = (PeliculasModels) PeliculasController.findById(id).get();
-        model.addAttribute("peliculas", peliculasRepository);
-        return "update";
-    }
-
-    private static ThreadLocal<Object> findById(int id) {
         return null;
     }
 
-
-    @PostMapping("/updatecat/{id}")
-    public String updateFilms(@PathVariable("id") int id, @Validated PeliculasController peliculas, BindingResult result,
-                                 Model model) {
-        peliculas.setCategoryId(id);
-        if (result.hasErrors()) {
-            return "update";
+    @GetMapping("/peliculas/{id}")
+        public ResponseEntity<PeliculasModels> getCategory(@PathVariable("id") int id) {
+        PeliculasModels ciudadesModels = PeliculasRepository.findById(id)
+                // .orElseThrow(()->new ResourceNotFoundException("Category not found"));
+                .orElse(null);
+        if (PeliculasModels == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(PeliculasModels, HttpStatus.OK);
         }
-        peliculasRepository.save(peliculas);
-        return "redirect:/cat/index";
-
     }
 
-    private void save(PeliculasController peliculas) {
-
+    @PostMapping("/peliculas")
+    public ResponseEntity<PeliculasModels> addCategory(@RequestBody CiudadesModels ciudadesModels) {
+        EspectadoresModels temp = CiudadesModels.save(new EspectadoresModels(ciudadesModels.getName()));
+        return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
-    private void save(PeliculasModels peliculas) {
+    @PutMapping("/category/{id}")
+    public ResponseEntity<EspectadoresModels> updateCategory(@PathVariable("id") int id, @RequestBody CiudadesModels ciudadesModels) {
+        PeliculasModels temp = PeliculasRepository.findById(id).orElse(null);
+        if (temp == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            temp.setName(EspectadoresRepository());
+            return new ResponseEntity<>(PeliculasRepository.save(temp), HttpStatus.OK);
+
+        }
     }
 
-    private void setCategoryId(int id) {
+    private String EspectadoresRepository() {
+        return null;
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteCat(@PathVariable("id") int id) {
-        peliculasRepository.deleteById(id);
-        return "redirect:/cat/index";
-    }
-
-    private void deleteById(int id) {
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable("id") int id) {
+        EspectadoresRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

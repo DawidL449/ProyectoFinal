@@ -2,7 +2,7 @@ package com.trifulcas.Controllers;
 
 import com.trifulcas.Models.CinesModels;
 import com.trifulcas.Models.CiudadesModels;
-import com.trifulcas.Models.PeliculasModels;
+import com.trifulcas.Repository.CinesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,37 +18,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CinesController {
 
     @Autowired
-    CiudadesController CinesRepository;
-    private CiudadesModels CinesModels;
+    CinesRepository cinesRepository;
+    private Object CinesRepository;
+    private Object cines;
 
     @GetMapping("/index")
     public String getAll(Model model) {
-        model.addAttribute("categories", CinesRepository.findAll());
+        model.addAttribute("categories", CinesController.findAll());
 
         return "index";
     }
 
-    private Object findAll() {
+    private static Object findAll() {
         return null;
     }
 
     @GetMapping("/add")
-    public String addCat(CinesController Cines) {
+    public String addCat(CinesController Peliculas) {
         return "add";
     }
 
     @PostMapping("/addcat")
-    public String addCategory(@Validated CinesModels Cines, BindingResult result, Model model) {
+    public String addCategory(@Validated CiudadesModels Ciudades, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add";
         }
-        CinesRepository.save(Cines);
+        CinesController.save(Ciudades);
         return "redirect:/cat/index";
     }
 
     @GetMapping("/edit/{id}")
     public String editPeliculas(@PathVariable("id") int id, Model model) {
-        PeliculasModels peliculas = (PeliculasModels) CinesController.findById(id).get();
+        CiudadesModels peliculas = (CiudadesModels) CinesController.findById(id).get();
         model.addAttribute("ciudades", CinesRepository);
         return "update";
     }
@@ -59,22 +60,23 @@ public class CinesController {
 
 
     @PostMapping("/updatecat/{id}")
-    public String updateFilms(@PathVariable("id") int id, @Validated PeliculasController peliculas, BindingResult result,
+    public String updateFilms(@PathVariable("id") int id, @Validated PeliculasController cines, BindingResult result,
                               Model model) {
-        CiudadesModels.setCategoryId(id);
+
         if (result.hasErrors()) {
             return "update";
         }
-        CinesRepository.save(CinesModels);
+        CinesController.save(cines);
         return "redirect:/cat/index";
 
     }
 
-    private void save(PeliculasController peliculas) {
-
+    private static void save(Object cines) {
     }
 
-    private void save(PeliculasModels peliculas) {
+
+
+    private static void save(CinesModels cines) {
     }
 
     private void setCategoryId(int id) {
@@ -82,11 +84,11 @@ public class CinesController {
 
     @GetMapping("/delete/{id}")
     public String deleteCat(@PathVariable("id") int id) {
-        CinesRepository.deleteById(id);
+        CinesController.deleteById(id);
         return "redirect:/cat/index";
     }
 
-    private void deleteById(int id) {
+    private static void deleteById(int id) {
 
     }
 }

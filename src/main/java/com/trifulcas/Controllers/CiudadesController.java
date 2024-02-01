@@ -1,39 +1,46 @@
 package com.trifulcas.Controllers;
 
-import com.trifulcas.Models.CinesModels;
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.qos.logback.core.model.Model;
 import com.trifulcas.Models.CiudadesModels;
+import com.trifulcas.Repository.CiudadesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(path = "/cat")
+
+
+@RestController
+@RequestMapping("/api")
 public class CiudadesController {
-
     @Autowired
-    CiudadesController CiudadesRepository;
-    private CiudadesModels Ciudades;
+    CiudadesRepository ciudadesRepository;
 
-    @GetMapping("/index")
-    public String getAll(Model model) {
-        model.addAttribute("categories", CiudadesRepository.findAll());
+    @GetMapping("/category")
+    public ResponseEntity<List<CiudadesModels>> getAll(@RequestParam(required = false) String name) {
+        List<CiudadesModels> res = new ArrayList<>();
+        if (name == null) {
 
-        return "index";
-    }
-
-    Object findAll() {
-        return null;
-    }
-
-    @GetMapping("/add")
-    public String addCat(PeliculasController Peliculas) {
-        return "add";
+        } else {
+            CiudadesRepository.findByNameContaining(name).forEach(res::add);
+        }
+        if (res.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping("/addcat")
@@ -41,45 +48,46 @@ public class CiudadesController {
         if (result.hasErrors()) {
             return "add";
         }
-        CiudadesRepository.save(Ciudades);
-        return "redirect:/cat/index";
-    }
-
-    protected void save(CinesModels ciudades) {
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editciudades(@PathVariable("id") int id, Model model) {
-        CiudadesModels ciudades = (CiudadesModels) CiudadesController.findById(id).get();
-        model.addAttribute("ciudades", CiudadesRepository);
-        return "update";
-    }
-
-    private static ThreadLocal<Object> findById(int id) {
         return null;
     }
 
-
-    @PostMapping("/updatecat/{id}")
-    public String updateFilms(@PathVariable("id") int id, @Validated PeliculasController peliculas, BindingResult result,
-                              Model model) {
-        CiudadesModels.setCategoryId(id);
-        if (result.hasErrors()) {
-            return "update";
+    @GetMapping("/category/{id}")
+    public ResponseEntity<CiudadesModels> getCategory(@PathVariable("id") int id) {
+        CiudadesModels ciudadesModels = (CiudadesModels) CiudadesModels.findById(id)
+                // .orElseThrow(()->new ResourceNotFoundException("Category not found"));
+                .orElse(null);
+        if (ciudadesModels == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(ciudadesModels, HttpStatus.OK);
         }
-        CiudadesRepository.save(Ciudades);
-        return "redirect:/cat/index";
-
     }
 
-
-    @GetMapping("/delete/{id}")
-    public String deleteCat(@PathVariable("id") int id) {
-        CiudadesRepository.deleteById(id);
-        return "redirect:/cat/index";
+    @PostMapping("/ciudades")
+    public ResponseEntity<CiudadesModels> addCategory(@RequestBody CiudadesModels ciudadesModels) {
+        CiudadesModels temp = CiudadesModels.save(new CiudadesModels(ciudadesModels.getName()));
+        return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
-    void deleteById(int id) {
+    @PutMapping("/category/{id}")
+    public ResponseEntity<CiudadesModels> updateCategory(@PathVariable("id") int id, @RequestBody CiudadesModels ciudadesModels) {
+        CiudadesModels temp = ciudadesRepository.findById(id).orElse(null);
+        if (temp == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            temp.setName(ciudadesRepository());
+            return new ResponseEntity<>(ciudadesRepository.save(temp), HttpStatus.OK);
 
+        }
     }
+
+    private String ciudadesRepository() {
+        return null;
     }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable("id") int id) {
+        ciudadesRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+}
