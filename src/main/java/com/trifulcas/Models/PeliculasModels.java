@@ -35,6 +35,46 @@ public class PeliculasModels implements Serializable{
         this.lanzamiento = lanzamiento;
     }
 
+    public Long getIdpeliculas() {
+        return idpeliculas;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public int getAño() {
+        return año;
+    }
+
+    public String getLanzamiento() {
+        return lanzamiento;
+    }
+
+    public void setIdpeliculas(Long idpeliculas) {
+        this.idpeliculas = idpeliculas;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setAño(int año) {
+        this.año = año;
+    }
+
+    public void setLanzamiento(String lanzamiento) {
+        this.lanzamiento = lanzamiento;
+    }
+
     @Override
     public String toString() {
         return "PeliculasModels{" +

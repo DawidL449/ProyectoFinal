@@ -1,70 +1,66 @@
 package com.trifulcas.Models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 
-
 @Entity
 @Table(name="cines")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class CinesModels implements Serializable {
+
+public class CinesModels implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idcines;
+    private Long idsalas;
+
     @Column(name="nombre")
     private String nombre;
-    @Column(name="salas")
-    private String salas;
+    @Column(name="numero")
 
+    private int numero;
 
-    public CinesModels(String nombre,int idcines,String salas) {
+    public CinesModels(Long idsalas,String nombre,int numero) {
+        this.idsalas = idsalas;
         this.nombre = nombre;
-        this.idcines = (long) idcines;
-        this.salas = salas;
+        this.numero = numero;
+
     }
 
-    public Long getIdcines() {
-        return idcines;
+    public Long getIdsalas() {
+        return idsalas;
     }
 
     public String getNombre() {
         return nombre;
-
     }
 
-    public String getSalas() {
-        return salas;
-
-
+    public int getNumero() {
+        return numero;
     }
 
-
-    public void setSalas(String salas) {
-        this.salas = salas;
+    public void setIdsalas(Long idsalas) {
+        this.idsalas = idsalas;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setIdcines(Long idcines) {
-        this.idcines = idcines;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     @Override
     public String toString() {
-        return "CinesModels{" +
-                "idcines=" + idcines +
+        return "SalasModels{" +
+                "idsalas=" + idsalas +
                 ", nombre='" + nombre + '\'' +
-                ", salas='" + salas + '\'' +
+                ", numero=" + numero +
                 '}';
     }
 }
