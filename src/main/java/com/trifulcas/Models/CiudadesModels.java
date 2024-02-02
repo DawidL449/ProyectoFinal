@@ -1,97 +1,58 @@
 package com.trifulcas.Models;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-
+import java.io.Serializable;
 @Entity
-@Table(name = "ciudades")
-public class CiudadesModels {
+@Table(name="cines")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class CiudadesModels implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ciudades_id")
-    private int ciudadesId;
+    private Long idciudad;
+    @Column(name="nombre")
+    private String nombre;
+    @Column(name="ubicacion")
+    private String ubicacion;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    public Long getIdciudad() {
+        return idciudad;
+    }
 
-    @Column(name = "last_update", nullable = false)
-    private Timestamp lastUpdate;
-
-    // Como ya hemos especificado los datos de la tabla en film
-    // Aquí nos basta con especificar la entidad en Film
-    @ManyToMany(mappedBy="ciudades")
-    // Anotación para evitar que al recuperar la categoría salgan las películas
-    @JsonIgnore
-    private Set<CiudadesModels> films=new HashSet<>();
-
-    public CiudadesModels() {
-        super();
-        Date now = new Date();
-        this.lastUpdate = new Timestamp(now.getTime());
+    public String getNombre() {
+        return nombre;
 
     }
 
-    public CiudadesModels(String name) {
-        super();
-        this.name = name;
-        Date now = new Date();
-        this.lastUpdate = new Timestamp(now.getTime());
+    public String getUbicacion() {
+        return ubicacion;
     }
 
-    public static EspectadoresModels save(CiudadesModels ciudadesModels) {
-        return null;
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
-    public static void setCategoryId(int id) {
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public static EspectadoresModels save(EspectadoresModels espectadoresModels) {
-        return null;
-    }
-
-    public static ScopedValue<Object> findById(int id) {
-        return null;
-    }
-
-    public int getCategoryId() {
-        return ciudadesId;
-    }
-
-    public void setCiudadesId(int ciudadesId) {
-        this.ciudadesId= ciudadesId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setIdciudad(Long idciudad) {
+        this.idciudad = idciudad;
     }
 
     @Override
     public String toString() {
-        return "Ciudades [ciudadesId=" + ciudadesId + ", name=" + name + ", lastUpdate=" + lastUpdate + "]";
+        return "CiudadesModels{" +
+                "idciudad=" + idciudad +
+                ", nombre='" + nombre + '\'' +
+                ", ubicacion='" + ubicacion + '\'' +
+                '}';
     }
-
 }

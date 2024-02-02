@@ -28,14 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PeliculasController {
     @Autowired
     PeliculasRepository peliculasRepository;
-    private com.trifulcas.Models.EspectadoresModels EspectadoresModels;
     private com.trifulcas.Models.PeliculasModels PeliculasModels;
 
     public PeliculasController(Object name) {
 
     }
 
-    @GetMapping("/espectadores")
+    @GetMapping("/peliculas")
         public ResponseEntity<List<PeliculasModels>> getAll(@RequestParam(required = false) String name) {
         List<PeliculasModels> res = new ArrayList<>();
         if (name == null) {
@@ -51,7 +50,7 @@ public class PeliculasController {
     }
 
     @PostMapping("/addcat")
-    public String addCategory(@Validated PeliculasModels Espectadores, BindingResult result, Model model) {
+    public String addCategory(@Validated PeliculasModels Peliculas, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add";
         }
@@ -61,7 +60,7 @@ public class PeliculasController {
     @GetMapping("/espectadores/{id}")
     public ResponseEntity<PeliculasModels> getCategory(@PathVariable("id") int id) {
             PeliculasModels ciudadesModels = (PeliculasModels) PeliculasController.findById(id)
-                // .orElseThrow(()->new ResourceNotFoundException("Category not found"));
+                // .orElseThrow(()->new ResourceNotFoundException("Peliculas not found"));
                 .orElse(null);
         if (ciudadesModels == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -72,7 +71,7 @@ public class PeliculasController {
 
     @PostMapping("/ciudades")
     public ResponseEntity<PeliculasModels> addCategory(@RequestBody PeliculasModels espectadoresModels) {
-            PeliculasModels temp = PeliculasController.save(new PeliculasController(espectadoresModels.getName()));
+            PeliculasModels temp = PeliculasController.save(new PeliculasController(peliculasRepository.getName()));
         return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 

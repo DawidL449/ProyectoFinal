@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PeliculasRepository extends JpaRepository<PeliculasModels, Integer> {
     List<PeliculasModels> findByPeliculasContaining(String peliculas);
+
+    Object getName();
 }

@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface EspectadoresRepository extends JpaRepository<EspectadoresModels, Integer> {
-    // Busco las categorías cuyo nombre contenga una cadena
     List<EspectadoresModels> findByNameContaining(String name);
 
-    // Busco las categorías cuya propiedad 'Films' tengan un id 'FilmId'
-    List<EspectadoresModels> findByFilmsFilmId(int id);
+    List<EspectadoresModels> findByEspectadoresId(int id);
 }

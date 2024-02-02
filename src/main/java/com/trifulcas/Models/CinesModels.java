@@ -1,72 +1,70 @@
 package com.trifulcas.Models;
+
 import jakarta.persistence.*;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+
 
 @Entity
-@Table(name = "cines")
-public class CinesModels {
-
+@Table(name="cines")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class CinesModels implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cines_id")
-    private int cinesId;
+    private Long idcines;
+    @Column(name="nombre")
+    private String nombre;
+    @Column(name="salas")
+    private String salas;
 
-    @Column(name = "first_name")
-    private String firstName;
 
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(name = "last_update",  columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdate = new Date();
-
-    // Constructor, getters, and setters
-
-    public CinesModels() {
+    public CinesModels(String nombre,int idcines,String salas) {
+        this.nombre = nombre;
+        this.idcines = (long) idcines;
+        this.salas = salas;
     }
 
-    public CinesModels(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Long getIdcines() {
+        return idcines;
     }
 
-    public int getCinesModelsId() {
-        return cinesId;
+    public String getNombre() {
+        return nombre;
+
     }
 
-    public void setCinesModelsId(int actorId) {
-        this.cinesId = cinesId;
+    public String getSalas() {
+        return salas;
+
+
     }
 
-    public String getFirstName() {
-        return firstName;
+
+    public void setSalas(String salas) {
+        this.salas = salas;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setIdcines(Long idcines) {
+        this.idcines = idcines;
     }
 
     @Override
     public String toString() {
-        return "Cines [CinesId=" + cinesId + ", firstName=" + firstName + ", lastName=" + lastName + ", lastUpdate="
-                + lastUpdate + "]";
+        return "CinesModels{" +
+                "idcines=" + idcines +
+                ", nombre='" + nombre + '\'' +
+                ", salas='" + salas + '\'' +
+                '}';
     }
-
 }

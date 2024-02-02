@@ -1,75 +1,48 @@
 package com.trifulcas.Models;
-import java.sql.Timestamp;
-import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serializable;
 @Entity
-@Table(name = "peliculas")
-public class PeliculasModels {
-
+@Table(name="cines")
+@AllArgsConstructor
+@Getter
+@Setter
+public class PeliculasModels implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "peliculas_id")
-    private int peliculasId;
+   private Long idpeliculas;
+    @Column(name="nombre")
+    private String nombre;
+    @Column(name="genero")
+    private String genero;
+    @Column(name="año")
+    private int año;
 
-    @Column(name = "peliculas", nullable = false)
-    private String peliculas;
-
-    @Column(name = "last_update", nullable = false)
-    private Timestamp lastUpdate;
+    @Column(name="lanzamiento")
+    private String lanzamiento;
 
     public PeliculasModels() {
-        super();
-        Date now = new Date();
-        this.lastUpdate = new Timestamp(now.getTime());
-
     }
-
-    public PeliculasModels(String country) {
-        this();
-        this.peliculas = country;
-    }
-
-    public int getCountryId() {
-        return peliculasId;
-    }
-
-    public void setCountryId(int countryId) {
-        this.peliculasId = countryId;
-    }
-
-    public String getCountry() {
-        return peliculas;
-    }
-
-    public void setCountry(String peliculas) {
-        this.peliculas = peliculas;
-    }
-
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public PeliculasModels(Long idpeliculas,String genero,String nombre,String lanzamiento) {
+        this.idpeliculas = idpeliculas;
+        this.genero=genero;
+        this.nombre = nombre;
+        this.año = año;
+        this.lanzamiento = lanzamiento;
     }
 
     @Override
     public String toString() {
-        return "Peliculas [peliculasId=" + peliculasId + ", country=" + peliculas + ", lastUpdate=" + lastUpdate + "]";
-    }
-
-
-    public void setName(String espectadoresRepository) {
-    }
-
-    public Object getName() {
-        return null;
+        return "PeliculasModels{" +
+                "idpeliculas=" + idpeliculas +
+                ", nombre='" + nombre + '\'' +
+                ", genero='" + genero + '\'' +
+                ", año=" + año +
+                ", lanzamiento='" + lanzamiento + '\'' +
+                '}';
     }
 }
