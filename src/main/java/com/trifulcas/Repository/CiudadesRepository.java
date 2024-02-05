@@ -13,7 +13,6 @@ public interface CiudadesRepository extends JpaRepository<Ciudades, Long> {
     }
 
 
-
     static List<Ciudades> findByCiudadesFilmId(int id) {
         return null;
     }
@@ -27,5 +26,6 @@ public interface CiudadesRepository extends JpaRepository<Ciudades, Long> {
     void deleteAllById(Long id);
 
     Optional<Object> findById(Class<? extends String> aClass);
+}
 
 

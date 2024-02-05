@@ -11,5 +11,6 @@ public interface CinesRepository extends JpaRepository<Cines, Integer> {
 
     List<Cines> findCategoryByFilmsFilmId(int id);
 
-    Iterable<Object> findBycinesFilmId(int id)
+    Iterable<Object> findBycinesFilmId(int id);
+}
 
