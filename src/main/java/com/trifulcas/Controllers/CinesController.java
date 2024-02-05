@@ -1,93 +1,114 @@
 package com.trifulcas.Controllers;
 
-import com.trifulcas.Models.CinesModels;
+import com.trifulcas.Models.Cines;
+import com.trifulcas.Models.Peliculas;
 import com.trifulcas.Repository.CinesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@Controller
-@RequestMapping(path = "/cat")
+@RestController
+@RequestMapping(path = "/api/cines")
 public class CinesController {
-
     @Autowired
     CinesRepository cinesRepository;
-    private Object CinesRepository;
-    private Object cines;
 
-    @GetMapping("/index")
-    public String getAll(Model model) {
-        model.addAttribute("categories", CinesController.findAll());
-
-        return "index";
+    @GetMapping("/cines")
+    public ResponseEntity<List<Cines>> getAll(@RequestParam(required = false) String name) {
+        List<Cines> res = new ArrayList<>();
+        if (name == null) {
+            cinesRepository.findAll().forEach(res::add);
+        } else {
+            cinesRepository.findByNameContaining(name).forEach(res::add);
+        }
+        if (res.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
+    @GetMapping("/cines/{id}")
+    public ResponseEntity<Cines> getPeliculas(@PathVariable("id") int id) {
+        Cines cines = cinesRepository.findById(id)
+                // .orElseThrow(()->new ResourceNotFoundException("Country not found"));
+                .orElse(null);
+        if (cines == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(cines, HttpStatus.OK);
+        }
+    }
+    @GetMapping("film/{id}/cines")
+    public ResponseEntity<List<Cines>> getAllByFilm(@PathVariable("id") int id) {
+        List<Cines> res = new ArrayList<>();
+        Optional<Cines> espectadores = cinesRepository.findById(id);
+        if (res.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+    @PostMapping("/cines/{id}/cines")
+    public ResponseEntity<Cines> addCity(@PathVariable("id") int id, @RequestBody Cines city) {
+        Cines cines = cinesRepository.findById(id).orElse(null);
+        if (cines == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-    private static Object findAll() {
+
+        return null;
+    }
+    @PostMapping("/film/{id}/film")
+    public ResponseEntity<Cines> addfilm(@PathVariable("id") int id, @RequestBody Peliculas film) {
+        Cines cines = cinesRepository.findById(id).orElse(null);
+        if (cines == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        Peliculas temp = new Peliculas(cines.getId(),film);
+
+
         return null;
     }
 
-    @GetMapping("/add")
-    public String addCat(CinesController Peliculas) {
-        return "add";
-    }
 
-    @PostMapping("/addcat")
-    public String addCategory(@Validated CinesModels cines, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "add";
+
+    @PutMapping("/cines/{id}")
+    public ResponseEntity<Cines> updatefilm(@PathVariable("id") int id, @RequestBody Peliculas film) {
+        Cines temp = cinesRepository.findById(id).orElse(null);
+        if (temp == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        CinesController.save(cines);
-        return "redirect:/cat/index";
-    }
 
-    @GetMapping("/edit/{id}")
-    public String editPeliculas(@PathVariable("id") int id, Model model) {
-        CinesModels peliculas = (CinesModels) CinesController.findById(id).get();
-        model.addAttribute("ciudades", CinesRepository);
-        return "update";
-    }
-
-    private static ThreadLocal<Object> findById(int id) {
         return null;
     }
+    @DeleteMapping("/cines/{id}/city")
+    public ResponseEntity<HttpStatus> deleteCityCountry(@PathVariable("id") int id) {
 
-
-    @PostMapping("/updatecat/{id}")
-    public String updateFilms(@PathVariable("id") int id, @Validated CinesController cines, BindingResult result,
-                              Model model) {
-
-        if (result.hasErrors()) {
-            return "update";
+        if (!cinesRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            cinesRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        CinesController.save(cines);
-        return "redirect:/cat/index";
 
     }
-
-    private static void save(Object cines) {
+    @DeleteMapping("/cines/{id}")
+    public ResponseEntity<HttpStatus> deleteCity(@PathVariable("id") int id) {
+        cinesRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-
-    private static void save(CinesModels cines) {
-    }
-
-    private void setCategoryId(int id) {
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteCat(@PathVariable("id") int id) {
-        CinesController.deleteById(id);
-        return "redirect:/cat/index";
-    }
-
-    private static void deleteById(int id) {
-
-    }
 }
+
+

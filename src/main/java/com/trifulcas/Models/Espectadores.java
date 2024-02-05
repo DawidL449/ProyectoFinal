@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EspectadoresModels implements Serializable{
+public class Espectadores implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column private Long idespectadores;
@@ -22,7 +22,7 @@ public class EspectadoresModels implements Serializable{
 
     @Column private String nombre;
 
-    public EspectadoresModels(Long idespectadores, int cantidad, String genero, int edad) {
+    public Espectadores(Long idespectadores, int cantidad, String genero, int edad) {
         this.idespectadores = idespectadores;
         this.cantidad = cantidad;
         this.genero = genero;
@@ -81,4 +81,6 @@ public class EspectadoresModels implements Serializable{
                 ", nombre='" + nombre + '\'' +
                 '}';
     }
+
+
 }

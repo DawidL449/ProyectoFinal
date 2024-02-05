@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
 @Entity
@@ -14,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CiudadesModels implements Serializable {
+public class Ciudades implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idciudad;
@@ -35,15 +34,15 @@ public class CiudadesModels implements Serializable {
     public String getUbicacion() {
         return ubicacion;
     }
-    public CiudadesModels(String ubicacion, String nombre, int id_ciudad){
+    public Ciudades(String ubicacion, String nombre, int id_ciudad){
         this.ubicacion = ubicacion;
         this.nombre = nombre;
         this.idciudad = idciudad;
     }
 
 
-    public void setIdciudad(Long idciudad) {
-        this.idciudad = idciudad;
+    public void setIdciudad(Ciudades idciudad) {
+        this.idciudad = idciudad.getIdciudad();
     }
 
     public void setNombre(String nombre) {
@@ -62,4 +61,6 @@ public class CiudadesModels implements Serializable {
                 ", ubicacion='" + ubicacion + '\'' +
                 '}';
     }
+
+
 }

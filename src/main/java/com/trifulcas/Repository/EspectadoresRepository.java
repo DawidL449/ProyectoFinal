@@ -2,12 +2,19 @@ package com.trifulcas.Repository;
 
 import java.util.List;
 
-import com.trifulcas.Models.EspectadoresModels;
+import com.trifulcas.Models.Espectadores;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface EspectadoresRepository extends JpaRepository<EspectadoresModels, Integer> {
-    List<EspectadoresModels> findByNameContaining(String name);
+public interface EspectadoresRepository extends JpaRepository<Espectadores, Integer> {
 
-    List<EspectadoresModels> findByEspectadoresId(int id);
+    static Iterable<Object> findByespectadoresId(int id) {
+        return null;
+    }
+
+    static Iterable<Object> findByNameContaining(String name) {
+        return null;
+    }
+
+    List<Espectadores> findByEspectadoresId(int id);
 }

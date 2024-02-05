@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PeliculasModels implements Serializable{
+public class Peliculas implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long idpeliculas;
@@ -25,9 +25,9 @@ public class PeliculasModels implements Serializable{
     @Column(name="lanzamiento")
     private String lanzamiento;
 
-    public PeliculasModels() {
+    public Peliculas(Long idpeliculas, Peliculas film) {
     }
-    public PeliculasModels(Long idpeliculas,String genero,String nombre,String lanzamiento) {
+    public Peliculas(Long idpeliculas, String genero, String nombre, String lanzamiento) {
         this.idpeliculas = idpeliculas;
         this.genero=genero;
         this.nombre = nombre;
@@ -84,5 +84,8 @@ public class PeliculasModels implements Serializable{
                 ", año=" + año +
                 ", lanzamiento='" + lanzamiento + '\'' +
                 '}';
+    }
+
+    public void setName(String peliculasRepository) {
     }
 }

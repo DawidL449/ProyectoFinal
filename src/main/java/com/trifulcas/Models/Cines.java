@@ -13,26 +13,26 @@ import java.io.Serializable;
 @Getter
 @Setter
 
-public class CinesModels implements Serializable{
+public class Cines implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idsalas;
+    private Long id;
 
-    @Column(name="nombre")
+    @Column(name="nombre", nullable=false)
     private String nombre;
     @Column(name="numero")
 
     private int numero;
 
-    public CinesModels(Long idsalas,String nombre,int numero) {
-        this.idsalas = idsalas;
+    public Cines(Long idsalas, String nombre, int numero) {
+        this.id = idsalas;
         this.nombre = nombre;
         this.numero = numero;
 
     }
 
     public Long getIdsalas() {
-        return idsalas;
+        return id;
     }
 
     public String getNombre() {
@@ -44,7 +44,7 @@ public class CinesModels implements Serializable{
     }
 
     public void setIdsalas(Long idsalas) {
-        this.idsalas = idsalas;
+        this.id = idsalas;
     }
 
     public void setNombre(String nombre) {
@@ -58,7 +58,7 @@ public class CinesModels implements Serializable{
     @Override
     public String toString() {
         return "SalasModels{" +
-                "idsalas=" + idsalas +
+                "idsalas=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", numero=" + numero +
                 '}';

@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SalasModels implements Serializable{
+public class Salas implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idsalas;
@@ -23,7 +23,7 @@ public class SalasModels implements Serializable{
 
     private int numero;
 
-    public SalasModels(Long idsalas,String nombre,int numero) {
+    public Salas(Long idsalas, String nombre, int numero) {
         this.idsalas = idsalas;
         this.nombre = nombre;
         this.numero = numero;
