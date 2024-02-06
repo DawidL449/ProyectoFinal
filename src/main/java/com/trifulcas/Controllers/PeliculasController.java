@@ -33,7 +33,7 @@ public class PeliculasController {
 public class PeliculasController {
     @Autowired
     PeliculasRepository PeliculasRepository;
-    private com.trifulcas.Models.EspectadoresModels EspectadoresModels;
+    private com.trifulcas.Models.Peliculas Peliculas;
 
     @GetMapping("/peliculas")
     public ResponseEntity<List<EspectadoresModels>> getAll(@RequestParam(required = false) String name) {
@@ -144,8 +144,8 @@ public class PeliculasController {
     }
 
     @PostMapping("/peliculas")
-    public ResponseEntity<PeliculasModels> addCategory(@RequestBody Peliculas ciudadesModels) {
-        EspectadoresModels temp = Peliculas.save(new EspectadoresModels(Peliculas.getName()));
+    public ResponseEntity<Peliculas> addCategory(@RequestBody Peliculas ciudadesModels) {
+        Peliculas temp = Peliculas.save(new Peliculas(Peliculas.getName()));
         return new ResponseEntity<>(temp, HttpStatus.CREATED);
     }
 
